@@ -13,7 +13,7 @@
 
     <packaging>pom</packaging>
     <name>UltraCommerce Presentation Parent</name>
-    <description>BroadleafCommerce Presentation layer codebase</description>
+    <description>UltraCommerce Presentation layer codebase</description>
     <url>https://ultracommerce.co</url>
 
     <properties>
