@@ -4,7 +4,7 @@
     <parent>
         <artifactId>ultracommerce-presentation</artifactId>
         <groupId>com.ultracommerce</groupId>
-        <version>2.2.0-GA</version>
+        <version>2.2.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>ultracommerce-thymeleaf3-presentation</artifactId>
