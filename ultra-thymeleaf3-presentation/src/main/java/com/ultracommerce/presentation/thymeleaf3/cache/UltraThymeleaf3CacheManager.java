@@ -1,23 +1,23 @@
 /*
  * #%L
- * BroadleafCommerce Framework Web
+ * UltraCommerce Framework Web
  * %%
- * Copyright (C) 2009 - 2016 Broadleaf Commerce
+ * Copyright (C) 2009 - 2016 Ultra Commerce
  * %%
- * Licensed under the Broadleaf Fair Use License Agreement, Version 1.0
- * (the "Fair Use License" located  at http://license.broadleafcommerce.org/fair_use_license-1.0.txt)
- * unless the restrictions on use therein are violated and require payment to Broadleaf in which case
- * the Broadleaf End User License Agreement (EULA), Version 1.1
- * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
+ * Licensed under the Ultra Fair Use License Agreement, Version 1.0
+ * (the "Fair Use License" located  at http://license.ultracommerce.org/fair_use_license-1.0.txt)
+ * unless the restrictions on use therein are violated and require payment to Ultra in which case
+ * the Ultra End User License Agreement (EULA), Version 1.1
+ * (the "Commercial License" located at http://license.ultracommerce.org/commercial_license-1.1.txt)
  * shall apply.
  * 
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
- * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
+ * between you and Ultra Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.presentation.thymeleaf3.cache;
+package com.ultracommerce.presentation.thymeleaf3.cache;
 
-import org.broadleafcommerce.common.web.cache.BLCICacheExtensionManager;
+import com.ultracommerce.common.web.cache.UCICacheExtensionManager;
 import org.thymeleaf.cache.AbstractCacheManager;
 import org.thymeleaf.cache.ExpressionCacheKey;
 import org.thymeleaf.cache.ICache;
@@ -29,21 +29,21 @@ import org.thymeleaf.engine.TemplateModel;
 import javax.annotation.Resource;
 
 /**
- * Implementation of {@link org.thymeleaf.cache.AbstractCacheManager} to use {@link BroadleafThymeleaf3ICache} for templates.
+ * Implementation of {@link org.thymeleaf.cache.AbstractCacheManager} to use {@link UltraThymeleaf3ICache} for templates.
  * This class heavily leverages {@link org.thymeleaf.cache.StandardCacheManager} functionality. Only the
- * initializeTemplateCache() method should behave differently by instantiating a BLCICache instead of a StandardCache.
+ * initializeTemplateCache() method should behave differently by instantiating a UCICache instead of a StandardCache.
  *
  * @author Chad Harchar (charchar)
  */
-public class BroadleafThymeleaf3CacheManager extends AbstractCacheManager {
+public class UltraThymeleaf3CacheManager extends AbstractCacheManager {
 
-    @Resource(name = "blICacheExtensionManager")
-    protected BLCICacheExtensionManager extensionManager;
+    @Resource(name = "ucICacheExtensionManager")
+    protected UCICacheExtensionManager extensionManager;
 
     protected StandardCacheManager standardCacheManager = new StandardCacheManager();
     
     /**
-     * This method was changed just to return a BLCICache, instead of a StandardCache
+     * This method was changed just to return a UCICache, instead of a StandardCache
      *
      * @return
      */
@@ -53,7 +53,7 @@ public class BroadleafThymeleaf3CacheManager extends AbstractCacheManager {
         if (maxSize == 0) {
             return null;
         }
-        return new BroadleafThymeleaf3ICache<TemplateCacheKey, TemplateModel>(
+        return new UltraThymeleaf3ICache<TemplateCacheKey, TemplateModel>(
                 standardCacheManager.getTemplateCacheName(), standardCacheManager.getTemplateCacheUseSoftReferences(),
                 standardCacheManager.getTemplateCacheInitialSize(), maxSize,
                 standardCacheManager.getTemplateCacheValidityChecker(), standardCacheManager.getTemplateCacheLogger(),

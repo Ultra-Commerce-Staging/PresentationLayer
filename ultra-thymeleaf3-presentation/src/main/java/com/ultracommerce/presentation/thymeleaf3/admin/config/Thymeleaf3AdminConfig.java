@@ -1,31 +1,31 @@
 /*
  * #%L
- * broadleaf-thymeleaf3-presentation
+ * ultra-thymeleaf3-presentation
  * %%
- * Copyright (C) 2009 - 2016 Broadleaf Commerce
+ * Copyright (C) 2009 - 2016 Ultra Commerce
  * %%
- * Licensed under the Broadleaf Fair Use License Agreement, Version 1.0
- * (the "Fair Use License" located  at http://license.broadleafcommerce.org/fair_use_license-1.0.txt)
- * unless the restrictions on use therein are violated and require payment to Broadleaf in which case
- * the Broadleaf End User License Agreement (EULA), Version 1.1
- * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
+ * Licensed under the Ultra Fair Use License Agreement, Version 1.0
+ * (the "Fair Use License" located  at http://license.ultracommerce.org/fair_use_license-1.0.txt)
+ * unless the restrictions on use therein are violated and require payment to Ultra in which case
+ * the Ultra End User License Agreement (EULA), Version 1.1
+ * (the "Commercial License" located at http://license.ultracommerce.org/commercial_license-1.1.txt)
  * shall apply.
  * 
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
- * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
+ * between you and Ultra Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.presentation.thymeleaf3.admin.config;
+package com.ultracommerce.presentation.thymeleaf3.admin.config;
 
-import org.broadleafcommerce.presentation.dialect.BroadleafDialectPrefix;
-import org.broadleafcommerce.presentation.dialect.BroadleafProcessor;
-import org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3MessageResolver;
-import org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3TemplateEngine;
-import org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleafViewResolver;
-import org.broadleafcommerce.presentation.thymeleaf3.config.AbstractThymeleaf3DialectConfig;
-import org.broadleafcommerce.presentation.thymeleaf3.config.AbstractThymeleaf3EngineConfig;
-import org.broadleafcommerce.presentation.thymeleaf3.config.Thymeleaf3CommonConfig;
-import org.broadleafcommerce.presentation.thymeleaf3.dialect.BroadleafThymeleaf3AdminDialect;
+import com.ultracommerce.presentation.dialect.UltraDialectPrefix;
+import com.ultracommerce.presentation.dialect.UltraProcessor;
+import com.ultracommerce.presentation.thymeleaf3.UltraThymeleaf3MessageResolver;
+import com.ultracommerce.presentation.thymeleaf3.UltraThymeleaf3TemplateEngine;
+import com.ultracommerce.presentation.thymeleaf3.UltraThymeleafViewResolver;
+import com.ultracommerce.presentation.thymeleaf3.config.AbstractThymeleaf3DialectConfig;
+import com.ultracommerce.presentation.thymeleaf3.config.AbstractThymeleaf3EngineConfig;
+import com.ultracommerce.presentation.thymeleaf3.config.Thymeleaf3CommonConfig;
+import com.ultracommerce.presentation.thymeleaf3.dialect.UltraThymeleaf3AdminDialect;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -52,21 +52,21 @@ public class Thymeleaf3AdminConfig extends Thymeleaf3CommonConfig {
     static class Thymeleaf3AdminDialectConfig extends AbstractThymeleaf3DialectConfig {
 
         @Bean
-        public BroadleafThymeleaf3AdminDialect blAdminDialect() {
-            BroadleafThymeleaf3AdminDialect dialect = new BroadleafThymeleaf3AdminDialect();
+        public UltraThymeleaf3AdminDialect ucAdminDialect() {
+            UltraThymeleaf3AdminDialect dialect = new UltraThymeleaf3AdminDialect();
             Set<IProcessor> allProcessors = new LinkedHashSet<>();
             allProcessors.addAll(iProcessors);
-            allProcessors.addAll(blAdminDialectProcessors());
+            allProcessors.addAll(ucAdminDialectProcessors());
             dialect.setProcessors(allProcessors);
             return dialect;
         }
         
         @Bean
         @Override
-        public Set<IProcessor> blDialectProcessors() {
-            Collection<BroadleafProcessor> commonProcessors = new ArrayList<>();
-            for (BroadleafProcessor processor : blcProcessors) {
-                if (BroadleafDialectPrefix.BLC.equals(processor.getPrefix())) {
+        public Set<IProcessor> ucDialectProcessors() {
+            Collection<UltraProcessor> commonProcessors = new ArrayList<>();
+            for (UltraProcessor processor : ucProcessors) {
+                if (UltraDialectPrefix.UC.equals(processor.getPrefix())) {
                     commonProcessors.add(processor);
                 }
             }
@@ -74,10 +74,10 @@ public class Thymeleaf3AdminConfig extends Thymeleaf3CommonConfig {
         }
         
         @Bean
-        public Set<IProcessor> blAdminDialectProcessors() {
-            Collection<BroadleafProcessor> adminProcessors = new ArrayList<>();
-            for (BroadleafProcessor processor : blcProcessors) {
-                if (BroadleafDialectPrefix.BLC_ADMIN.equals(processor.getPrefix())) {
+        public Set<IProcessor> ucAdminDialectProcessors() {
+            Collection<UltraProcessor> adminProcessors = new ArrayList<>();
+            for (UltraProcessor processor : ucProcessors) {
+                if (UltraDialectPrefix.UC_ADMIN.equals(processor.getPrefix())) {
                     adminProcessors.add(processor);
                 }
             }
@@ -85,11 +85,11 @@ public class Thymeleaf3AdminConfig extends Thymeleaf3CommonConfig {
         }
         
         @Bean
-        public Set<IDialect> blAdminDialects() {
+        public Set<IDialect> ucAdminDialects() {
             Set<IDialect> dialects = new LinkedHashSet<>();
             dialects.add(thymeleafSpringStandardDialect());
-            dialects.add(blAdminDialect());
-            dialects.add(blDialect());
+            dialects.add(ucAdminDialect());
+            dialects.add(ucDialect());
             return dialects;
         }
         
@@ -105,18 +105,18 @@ public class Thymeleaf3AdminConfig extends Thymeleaf3CommonConfig {
         }
         
         @Bean
-        public Set<ITemplateResolver> blAdminWebTemplateResolvers() {
-            return configUtil.getWebResolvers(blcTemplateResolvers);
+        public Set<ITemplateResolver> ucAdminWebTemplateResolvers() {
+            return configUtil.getWebResolvers(ucTemplateResolvers);
         }
         
         @Bean
         @Primary
-        public BroadleafThymeleaf3TemplateEngine blAdminWebTemplateEngine() {
-            BroadleafThymeleaf3TemplateEngine engine = new BroadleafThymeleaf3TemplateEngine();
+        public UltraThymeleaf3TemplateEngine ucAdminWebTemplateEngine() {
+            UltraThymeleaf3TemplateEngine engine = new UltraThymeleaf3TemplateEngine();
             engine.setMessageResolvers(messageResolvers);
             Set<ITemplateResolver> allResolvers = new LinkedHashSet<>();
             allResolvers.addAll(iTemplateResolvers);
-            allResolvers.addAll(blAdminWebTemplateResolvers());
+            allResolvers.addAll(ucAdminWebTemplateResolvers());
             engine.setTemplateResolvers(allResolvers);
             engine.setDialects(dialects);
             return engine;
@@ -138,9 +138,9 @@ public class Thymeleaf3AdminConfig extends Thymeleaf3CommonConfig {
             this.environment = environment;
         }
         
-        @Bean(name = {"blAdminThymeleafViewResolver", "thymeleafViewResolver"})
-        public BroadleafThymeleafViewResolver blAdminThymeleafViewResolver() {
-            BroadleafThymeleafViewResolver view = new BroadleafThymeleafViewResolver();
+        @Bean(name = {"ucAdminThymeleafViewResolver", "thymeleafViewResolver"})
+        public UltraThymeleafViewResolver ucAdminThymeleafViewResolver() {
+            UltraThymeleafViewResolver view = new UltraThymeleafViewResolver();
             view.setTemplateEngine(templateEngine);
             view.setOrder(1);
             view.setCache(environment.getProperty("thymeleaf.view.resolver.cache", Boolean.class, true));
@@ -156,8 +156,8 @@ public class Thymeleaf3AdminConfig extends Thymeleaf3CommonConfig {
     }
     
     @Bean 
-    public IMessageResolver blAdminMessageResolver() {
-        BroadleafThymeleaf3MessageResolver resolver = new BroadleafThymeleaf3MessageResolver();
+    public IMessageResolver ucAdminMessageResolver() {
+        UltraThymeleaf3MessageResolver resolver = new UltraThymeleaf3MessageResolver();
         resolver.setOrder(100);
         return resolver;
     }

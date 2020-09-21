@@ -1,25 +1,25 @@
 /*
  * #%L
- * broadleaf-common-thymeleaf
+ * ultra-common-thymeleaf
  * %%
- * Copyright (C) 2009 - 2016 Broadleaf Commerce
+ * Copyright (C) 2009 - 2016 Ultra Commerce
  * %%
- * Licensed under the Broadleaf Fair Use License Agreement, Version 1.0
- * (the "Fair Use License" located  at http://license.broadleafcommerce.org/fair_use_license-1.0.txt)
- * unless the restrictions on use therein are violated and require payment to Broadleaf in which case
- * the Broadleaf End User License Agreement (EULA), Version 1.1
- * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
+ * Licensed under the Ultra Fair Use License Agreement, Version 1.0
+ * (the "Fair Use License" located  at http://license.ultracommerce.org/fair_use_license-1.0.txt)
+ * unless the restrictions on use therein are violated and require payment to Ultra in which case
+ * the Ultra End User License Agreement (EULA), Version 1.1
+ * (the "Commercial License" located at http://license.ultracommerce.org/commercial_license-1.1.txt)
  * shall apply.
  * 
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
- * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
+ * between you and Ultra Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.presentation.thymeleaf3.dialect;
+package com.ultracommerce.presentation.thymeleaf3.dialect;
 
-import org.broadleafcommerce.presentation.dialect.BroadleafTagTextModifierProcessor;
-import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
-import org.broadleafcommerce.presentation.thymeleaf3.model.BroadleafThymeleaf3Context;
+import com.ultracommerce.presentation.dialect.UltraTagTextModifierProcessor;
+import com.ultracommerce.presentation.model.UltraTemplateContext;
+import com.ultracommerce.presentation.thymeleaf3.model.UltraThymeleaf3Context;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.engine.AttributeName;
 import org.thymeleaf.model.IProcessableElementTag;
@@ -31,19 +31,19 @@ import java.util.Map;
 
 public class DelegatingThymeleaf3TagTextModifierProcessor extends AbstractAttributeTagProcessor {
 
-    protected BroadleafTagTextModifierProcessor processor;
+    protected UltraTagTextModifierProcessor processor;
     
-    public DelegatingThymeleaf3TagTextModifierProcessor(String name, BroadleafTagTextModifierProcessor processor, int precedence) {
+    public DelegatingThymeleaf3TagTextModifierProcessor(String name, UltraTagTextModifierProcessor processor, int precedence) {
         super(TemplateMode.HTML, processor.getPrefix(), null, false, name, true, precedence, true);
         this.processor = processor;
     }
 
     @Override
     protected void doProcess(ITemplateContext context, IProcessableElementTag tag, AttributeName attributeName, String attributeValue, IElementTagStructureHandler structureHandler) {
-        BroadleafTemplateContext blcContext = new BroadleafThymeleaf3Context(context, structureHandler);
+        UltraTemplateContext ucContext = new UltraThymeleaf3Context(context, structureHandler);
         String tagName = tag.getElementCompleteName();
         Map<String, String> tagAttributes = tag.getAttributeMap();
-        String newText = processor.getTagText(tagName, tagAttributes, attributeName.getAttributeName(), attributeValue, blcContext);
+        String newText = processor.getTagText(tagName, tagAttributes, attributeName.getAttributeName(), attributeValue, ucContext);
         if (newText != null) {
             structureHandler.setBody(newText, processor.textShouldBeProcessed());
         }

@@ -1,23 +1,23 @@
 /*
  * #%L
- * BroadleafCommerce Common Libraries
+ * UltraCommerce Common Libraries
  * %%
- * Copyright (C) 2009 - 2016 Broadleaf Commerce
+ * Copyright (C) 2009 - 2016 Ultra Commerce
  * %%
- * Licensed under the Broadleaf Fair Use License Agreement, Version 1.0
- * (the "Fair Use License" located  at http://license.broadleafcommerce.org/fair_use_license-1.0.txt)
- * unless the restrictions on use therein are violated and require payment to Broadleaf in which case
- * the Broadleaf End User License Agreement (EULA), Version 1.1
- * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
+ * Licensed under the Ultra Fair Use License Agreement, Version 1.0
+ * (the "Fair Use License" located  at http://license.ultracommerce.org/fair_use_license-1.0.txt)
+ * unless the restrictions on use therein are violated and require payment to Ultra in which case
+ * the Ultra End User License Agreement (EULA), Version 1.1
+ * (the "Commercial License" located at http://license.ultracommerce.org/commercial_license-1.1.txt)
  * shall apply.
  * 
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
- * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
+ * between you and Ultra Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.presentation.thymeleaf3.dialect;
+package com.ultracommerce.presentation.thymeleaf3.dialect;
 
-import org.broadleafcommerce.presentation.dialect.BroadleafDialectPrefix;
+import com.ultracommerce.presentation.dialect.UltraDialectPrefix;
 import org.thymeleaf.dialect.AbstractProcessorDialect;
 import org.thymeleaf.dialect.IExpressionObjectDialect;
 import org.thymeleaf.expression.IExpressionObjectFactory;
@@ -29,15 +29,15 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
-public class BroadleafThymeleaf3AdminDialect extends AbstractProcessorDialect implements IExpressionObjectDialect {
+public class UltraThymeleaf3AdminDialect extends AbstractProcessorDialect implements IExpressionObjectDialect {
 
-    @Resource(name = "blVariableExpressionObjectFactory")
+    @Resource(name = "ucVariableExpressionObjectFactory")
     protected IExpressionObjectFactory expressionObjectFactory;
 
     private Set<IProcessor> processors = new HashSet<>();
 
-    public BroadleafThymeleaf3AdminDialect() {
-        super("Broadleaf Admin Dialect", BroadleafDialectPrefix.BLC_ADMIN.toString(), SpringStandardDialect.PROCESSOR_PRECEDENCE);
+    public UltraThymeleaf3AdminDialect() {
+        super("Ultra Admin Dialect", UltraDialectPrefix.UC_ADMIN.toString(), SpringStandardDialect.PROCESSOR_PRECEDENCE);
     }
 
     public void setProcessors(Set<IProcessor> processors) {

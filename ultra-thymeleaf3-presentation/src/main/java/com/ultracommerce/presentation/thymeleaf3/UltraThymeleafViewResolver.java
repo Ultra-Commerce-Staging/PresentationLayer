@@ -1,29 +1,29 @@
 /*
  * #%L
- * BroadleafCommerce Common Libraries
+ * UltraCommerce Common Libraries
  * %%
- * Copyright (C) 2009 - 2016 Broadleaf Commerce
+ * Copyright (C) 2009 - 2016 Ultra Commerce
  * %%
- * Licensed under the Broadleaf Fair Use License Agreement, Version 1.0
- * (the "Fair Use License" located  at http://license.broadleafcommerce.org/fair_use_license-1.0.txt)
- * unless the restrictions on use therein are violated and require payment to Broadleaf in which case
- * the Broadleaf End User License Agreement (EULA), Version 1.1
- * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
+ * Licensed under the Ultra Fair Use License Agreement, Version 1.0
+ * (the "Fair Use License" located  at http://license.ultracommerce.org/fair_use_license-1.0.txt)
+ * unless the restrictions on use therein are violated and require payment to Ultra in which case
+ * the Ultra End User License Agreement (EULA), Version 1.1
+ * (the "Commercial License" located at http://license.ultracommerce.org/commercial_license-1.1.txt)
  * shall apply.
  *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
- * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
+ * between you and Ultra Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.presentation.thymeleaf3;
+package com.ultracommerce.presentation.thymeleaf3;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.broadleafcommerce.common.extension.ExtensionResultHolder;
-import org.broadleafcommerce.common.util.BLCSystemProperty;
-import org.broadleafcommerce.common.web.BroadleafRequestContext;
-import org.broadleafcommerce.common.web.BroadleafTemplateViewResolverExtensionManager;
-import org.broadleafcommerce.common.web.controller.BroadleafControllerUtility;
+import com.ultracommerce.common.extension.ExtensionResultHolder;
+import com.ultracommerce.common.util.UCSystemProperty;
+import com.ultracommerce.common.web.UltraRequestContext;
+import com.ultracommerce.common.web.UltraTemplateViewResolverExtensionManager;
+import com.ultracommerce.common.web.controller.UltraControllerUtility;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.PatternMatchUtils;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -57,11 +57,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Andre Azzolini (apazzolini)
  */
-public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
-    private static final Log LOG = LogFactory.getLog(BroadleafThymeleafViewResolver.class);
+public class UltraThymeleafViewResolver extends ThymeleafViewResolver {
+    private static final Log LOG = LogFactory.getLog(UltraThymeleafViewResolver.class);
 
-    @Resource(name = "blBroadleafTemplateViewResolverExtensionManager")
-    protected BroadleafTemplateViewResolverExtensionManager extensionManager;
+    @Resource(name = "ucUltraTemplateViewResolverExtensionManager")
+    protected UltraTemplateViewResolverExtensionManager extensionManager;
 
     public static final String EXTENSION_TEMPLATE_ATTR_NAME = "extensionTemplateAttr";
 
@@ -71,7 +71,7 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
      *   HTTP redirect with AJAX support. That is, if you want a redirect to be followed
      *   by the browser as the result of an AJAX call or within an iFrame at the parent
      *   window, you can utilize this prefix. Note that this requires a JavaScript component,
-     *   which is provided as part of BLC.js
+     *   which is provided as part of UC.js
      *
      *   If the request was not performed in an AJAX / iFrame context, this method will
      *   delegate to the normal "redirect:" prefix.
@@ -87,12 +87,12 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
     protected String iframeLayout = "layout/iframeLayout";
 
     protected boolean useThymeleafLayoutDialect() {
-        return BLCSystemProperty.resolveBooleanSystemProperty("thymeleaf.useLayoutDialect");
+        return UCSystemProperty.resolveBooleanSystemProperty("thymeleaf.useLayoutDialect");
     }
 
     /*
      * This method is a copy of the same method in ThymeleafViewResolver, but since it is marked private,
-     * we are unable to call it from the BroadleafThymeleafViewResolver
+     * we are unable to call it from the UltraThymeleafViewResolver
      */
     protected boolean canHandle(final String viewName) {
         final String[] viewNamesToBeProcessed = getViewNames();
@@ -117,7 +117,7 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
 
     /**
      * Determines which internal method to call for creating the appropriate view. If no
-     * Broadleaf specific methods match the viewName, it delegates to the parent
+     * Ultra specific methods match the viewName, it delegates to the parent
      * ThymeleafViewResolver createView method
      */
     @Override
@@ -128,7 +128,7 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
         }
 
         if (viewName.startsWith(AJAX_REDIRECT_URL_PREFIX)) {
-            LOG.trace("[THYMELEAF] View {" + viewName + "} is an ajax redirect, and will be handled directly by BroadleafThymeleafViewResolver");
+            LOG.trace("[THYMELEAF] View {" + viewName + "} is an ajax redirect, and will be handled directly by UltraThymeleafViewResolver");
             String redirectUrl = viewName.substring(AJAX_REDIRECT_URL_PREFIX.length());
             return loadAjaxRedirectView(redirectUrl, locale);
         }
@@ -137,7 +137,7 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
     }
 
     /**
-     * Performs a Broadleaf AJAX redirect. This is used in conjunction with BLC.js to support
+     * Performs a Ultra AJAX redirect. This is used in conjunction with UC.js to support
      * doing a browser page change as as result of an AJAX call.
      *
      * @param redirectUrl
@@ -148,8 +148,8 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
     protected View loadAjaxRedirectView(String redirectUrl, final Locale locale) throws Exception {
         if (isAjaxRequest()) {
             initializeAjaxRedirectFlashmap(redirectUrl);
-            String viewName = "utility/blcRedirect";
-            addStaticVariable(BroadleafControllerUtility.BLC_REDIRECT_ATTRIBUTE, redirectUrl);
+            String viewName = "utility/ucRedirect";
+            addStaticVariable(UltraControllerUtility.UC_REDIRECT_ATTRIBUTE, redirectUrl);
             return super.loadView(viewName, locale);
         } else {
             return new RedirectView(redirectUrl, false, isRedirectHttp10Compatible());
@@ -162,7 +162,7 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
      * @param redirectUrl URL to redirect to
      */
     protected void initializeAjaxRedirectFlashmap(String redirectUrl) {
-        BroadleafRequestContext brc = BroadleafRequestContext.getBroadleafRequestContext();
+        UltraRequestContext brc = UltraRequestContext.getUltraRequestContext();
         HttpServletRequest req = brc == null ? null : brc.getRequest();
         HttpServletResponse res = brc == null ? null : brc.getResponse();
         FlashMap flashMap = RequestContextUtils.getOutputFlashMap(req);
@@ -245,7 +245,7 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
     protected boolean isIFrameRequest() {
         WebRequest request = getCurrentRequest();
 
-        String iFrameParameter = request.getParameter("blcIFrame");
+        String iFrameParameter = request.getParameter("ucIFrame");
         return (iFrameParameter != null && "true".equals(iFrameParameter));
     }
 
@@ -254,14 +254,14 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
         if (request == null) {
             return false;
         }
-        return BroadleafControllerUtility.isAjaxRequest(request);
+        return UltraControllerUtility.isAjaxRequest(request);
     }
 
     protected WebRequest getCurrentRequest() {
-        // First, let's try to get it from the BroadleafRequestContext
+        // First, let's try to get it from the UltraRequestContext
         WebRequest request = null;
-        if (BroadleafRequestContext.getBroadleafRequestContext() != null) {
-            WebRequest brcRequest = BroadleafRequestContext.getBroadleafRequestContext().getWebRequest();
+        if (UltraRequestContext.getUltraRequestContext() != null) {
+            WebRequest brcRequest = UltraRequestContext.getUltraRequestContext().getWebRequest();
             if (brcRequest != null) {
                 request = brcRequest;
             }
@@ -275,7 +275,7 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
             } catch (ClassCastException e) {
                 // In portlet environments, we won't be able to cast to a ServletRequestAttributes. We don't want to
                 // blow up in these scenarios.
-                LOG.warn("Unable to cast to ServletRequestAttributes and the request in BroadleafRequestContext " +
+                LOG.warn("Unable to cast to ServletRequestAttributes and the request in UltraRequestContext " +
                          "was not set. This may introduce incorrect AJAX behavior.");
             }
         }

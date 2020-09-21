@@ -1,26 +1,26 @@
 /*
  * #%L
- * BroadleafCommerce Framework Web
+ * UltraCommerce Framework Web
  * %%
- * Copyright (C) 2009 - 2016 Broadleaf Commerce
+ * Copyright (C) 2009 - 2016 Ultra Commerce
  * %%
- * Licensed under the Broadleaf Fair Use License Agreement, Version 1.0
- * (the "Fair Use License" located  at http://license.broadleafcommerce.org/fair_use_license-1.0.txt)
- * unless the restrictions on use therein are violated and require payment to Broadleaf in which case
- * the Broadleaf End User License Agreement (EULA), Version 1.1
- * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
+ * Licensed under the Ultra Fair Use License Agreement, Version 1.0
+ * (the "Fair Use License" located  at http://license.ultracommerce.org/fair_use_license-1.0.txt)
+ * unless the restrictions on use therein are violated and require payment to Ultra in which case
+ * the Ultra End User License Agreement (EULA), Version 1.1
+ * (the "Commercial License" located at http://license.ultracommerce.org/commercial_license-1.1.txt)
  * shall apply.
  * 
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
- * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
+ * between you and Ultra Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.presentation.thymeleaf3.cache;
+package com.ultracommerce.presentation.thymeleaf3.cache;
 
-import org.broadleafcommerce.common.extension.ExtensionResultHolder;
-import org.broadleafcommerce.common.extension.ExtensionResultStatusType;
-import org.broadleafcommerce.common.web.BroadleafRequestContext;
-import org.broadleafcommerce.common.web.cache.BLCICacheExtensionManager;
+import com.ultracommerce.common.extension.ExtensionResultHolder;
+import com.ultracommerce.common.extension.ExtensionResultStatusType;
+import com.ultracommerce.common.web.UltraRequestContext;
+import com.ultracommerce.common.web.cache.UCICacheExtensionManager;
 import org.slf4j.Logger;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.cache.ICache;
@@ -37,19 +37,19 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * Modification of {@link org.thymeleaf.cache.StandardCache} in order for BLC to be able to
+ * Modification of {@link org.thymeleaf.cache.StandardCache} in order for UC to be able to
  * handle caching based on site and profile level templates.  As StandardCache is declared final,
  * this is a wholesale copy with a few changes to get(), put() and getValueIfStillValid().
  *
  * @author Chad Harchar (charchar)
  */
-public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
+public class UltraThymeleaf3ICache<K, V> implements ICache<K, V> {
 
-    //START BLC MODIFICATION
+    //START UC MODIFICATION
 
     public static final String NOT_FOUND = "NOT_FOUND";
 
-    protected BLCICacheExtensionManager extensionManager;
+    protected UCICacheExtensionManager extensionManager;
 
     /**
      * This method differs from StandardCache.put() by not caching if we're in a sandbox, and adding a hook for
@@ -61,11 +61,11 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
     @Override
     public void put(K key, V value) {
 
-        if (BroadleafRequestContext.getBroadleafRequestContext().getSandBox() != null) {
+        if (UltraRequestContext.getUltraRequestContext().getSandBox() != null) {
             return;
         }
 
-        ExtensionResultStatusType erst = extensionManager.getProxy().putCache(key, value, new BroadleafThymeleaf3CacheContext(this));
+        ExtensionResultStatusType erst = extensionManager.getProxy().putCache(key, value, new UltraThymeleaf3CacheContext(this));
 
         if (erst.equals(ExtensionResultStatusType.NOT_HANDLED)) {
             defaultPut(key, value);
@@ -84,12 +84,12 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
     public V get(K key) {
         V value = null;
 
-        if (BroadleafRequestContext.getBroadleafRequestContext().getSandBox() != null) {
+        if (UltraRequestContext.getUltraRequestContext().getSandBox() != null) {
             return value;
         }
 
         ExtensionResultHolder<V> result = new ExtensionResultHolder<>();
-        ExtensionResultStatusType erst = extensionManager.getProxy().getCache(key, (ExtensionResultHolder<Object>) result, new BroadleafThymeleaf3CacheContext(this));
+        ExtensionResultStatusType erst = extensionManager.getProxy().getCache(key, (ExtensionResultHolder<Object>) result, new UltraThymeleaf3CacheContext(this));
 
         if (erst.equals(ExtensionResultStatusType.HANDLED)) {
             value = result.getResult();
@@ -110,9 +110,9 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
      * @param logger
      * @param extensionManager
      */
-    public BroadleafThymeleaf3ICache(final String name, final boolean useSoftReferences,
+    public UltraThymeleaf3ICache(final String name, final boolean useSoftReferences,
                          final int initialCapacity, final int maxSize, final ICacheEntryValidityChecker<? super K, ? super V> entryValidityChecker,
-                         final Logger logger, BLCICacheExtensionManager extensionManager) {
+                         final Logger logger, UCICacheExtensionManager extensionManager) {
 
         super();
 
@@ -200,7 +200,7 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
         return get((K) templateCacheKey, this.entryValidityChecker);
     }
 
-    //END BLC MODIFICATION (Continued below)
+    //END UC MODIFICATION (Continued below)
 
     private static final long REPORT_INTERVAL = 300000L; // 5 minutes
     private static final String REPORT_FORMAT =
@@ -546,14 +546,14 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
                 return null;
             }
 
-            // START BLC MODIFICATION
+            // START UC MODIFICATION
             // Added check for NOT_FOUND, which indicates that the current cache does not exist, but we want to
             // handle it in an extensionManager.get() implementation
             if (checker == null || (cachedValue instanceof String && cachedValue.equals(NOT_FOUND))
                     || checker.checkIsValueStillValid(key, cachedValue, this.creationTimeInMillis)) {
                 return cachedValue;
             }
-            // END BLC MODIFICATION
+            // END UC MODIFICATION
 
             return null;
         }

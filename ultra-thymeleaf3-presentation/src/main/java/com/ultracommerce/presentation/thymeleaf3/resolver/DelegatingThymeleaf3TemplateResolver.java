@@ -1,26 +1,26 @@
 /*
  * #%L
- * broadleaf-thymeleaf3-presentation
+ * ultra-thymeleaf3-presentation
  * %%
- * Copyright (C) 2009 - 2017 Broadleaf Commerce
+ * Copyright (C) 2009 - 2017 Ultra Commerce
  * %%
- * Licensed under the Broadleaf Fair Use License Agreement, Version 1.0
- * (the "Fair Use License" located  at http://license.broadleafcommerce.org/fair_use_license-1.0.txt)
- * unless the restrictions on use therein are violated and require payment to Broadleaf in which case
- * the Broadleaf End User License Agreement (EULA), Version 1.1
- * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
+ * Licensed under the Ultra Fair Use License Agreement, Version 1.0
+ * (the "Fair Use License" located  at http://license.ultracommerce.org/fair_use_license-1.0.txt)
+ * unless the restrictions on use therein are violated and require payment to Ultra in which case
+ * the Ultra End User License Agreement (EULA), Version 1.1
+ * (the "Commercial License" located at http://license.ultracommerce.org/commercial_license-1.1.txt)
  * shall apply.
  * 
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
- * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
+ * between you and Ultra Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.presentation.thymeleaf3.resolver;
+package com.ultracommerce.presentation.thymeleaf3.resolver;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.broadleafcommerce.common.web.resource.BroadleafContextUtil;
-import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
+import com.ultracommerce.common.web.resource.UltraContextUtil;
+import com.ultracommerce.presentation.resolver.UltraTemplateResolver;
 import org.thymeleaf.IEngineConfiguration;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templateresource.ITemplateResource;
@@ -37,10 +37,10 @@ public class DelegatingThymeleaf3TemplateResolver extends SpringResourceTemplate
 
     private static final Log LOG = LogFactory.getLog(DelegatingThymeleaf3TemplateResolver.class);
 
-    @Resource(name = "blBroadleafContextUtil")
-    protected BroadleafContextUtil blcContextUtil;
+    @Resource(name = "ucUltraContextUtil")
+    protected UltraContextUtil ucContextUtil;
 
-    protected BroadleafTemplateResolver templateResolver;
+    protected UltraTemplateResolver templateResolver;
 
     public DelegatingThymeleaf3TemplateResolver() {
         super();
@@ -51,16 +51,16 @@ public class DelegatingThymeleaf3TemplateResolver extends SpringResourceTemplate
     protected ITemplateResource computeTemplateResource(final IEngineConfiguration configuration, final String ownerTemplate,
                                                         final String template, final String resourceName, final String characterEncoding,
                                                         final Map<String, Object> templateResolutionAttributes) {
-        blcContextUtil.establishThinRequestContextWithoutSandBox();
+        ucContextUtil.establishThinRequestContextWithoutSandBox();
         InputStream resolvedResource = templateResolver.resolveResource(template, resourceName);
-        return new BroadleafThymeleaf3ITemplateResource(resourceName, resolvedResource);
+        return new UltraThymeleaf3ITemplateResource(resourceName, resolvedResource);
     }
 
-    public BroadleafTemplateResolver getTemplateResolver() {
+    public UltraTemplateResolver getTemplateResolver() {
         return templateResolver;
     }
 
-    public void setTemplateResolver(BroadleafTemplateResolver templateResolver) {
+    public void setTemplateResolver(UltraTemplateResolver templateResolver) {
         this.templateResolver = templateResolver;
     }
 }

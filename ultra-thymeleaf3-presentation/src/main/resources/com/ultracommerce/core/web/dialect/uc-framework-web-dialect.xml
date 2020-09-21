@@ -1,18 +1,18 @@
 <!--
   #%L
-  BroadleafCommerce Framework Web
+  UltraCommerce Framework Web
   %%
-  Copyright (C) 2009 - 2016 Broadleaf Commerce
+  Copyright (C) 2009 - 2016 Ultra Commerce
   %%
-  Licensed under the Broadleaf Fair Use License Agreement, Version 1.0
-  (the "Fair Use License" located  at http://license.broadleafcommerce.org/fair_use_license-1.0.txt)
-  unless the restrictions on use therein are violated and require payment to Broadleaf in which case
-  the Broadleaf End User License Agreement (EULA), Version 1.1
-  (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
+  Licensed under the Ultra Fair Use License Agreement, Version 1.0
+  (the "Fair Use License" located  at http://license.ultracommerce.org/fair_use_license-1.0.txt)
+  unless the restrictions on use therein are violated and require payment to Ultra in which case
+  the Ultra End User License Agreement (EULA), Version 1.1
+  (the "Commercial License" located at http://license.ultracommerce.org/commercial_license-1.1.txt)
   shall apply.
   
   Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
-  between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
+  between you and Ultra Commerce. You may not use this file except in compliance with the applicable license.
   #L%
   -->
 <dialect xmlns="http://www.thymeleaf.org/extras/dialect"
@@ -20,32 +20,32 @@
          xsi:schemaLocation="http://www.thymeleaf.org/extras/dialect
                              http://www.thymeleaf.org/xsd/thymeleaf-extras-dialect-2.1.xsd"
          prefix="blc"
-         namespace-uri="http://www.broadleafcommerce.com/"
-         class="org.broadleafcommerce.presentation.dialect.BroadleafThymeleaf3Dialect">
+         namespace-uri="http://www.ultracommerce.com/"
+         class="com.ultracommerce.presentation.dialect.UltraThymeleaf3Dialect">
     
     <!-- Element processors -->
-    <element-processor name="categories" class="org.broadleafcommerce.core.web.processor.CategoriesProcessor" />
-    <element-processor name="form" class="org.broadleafcommerce.presentation.thymeleaf3.processor.FormProcessor" />
-    <element-processor name="googleanalytics" class="org.broadleafcommerce.core.web.processor.GoogleAnalyticsProcessor" />
-    <element-processor name="google_universal_analytics" class="org.broadleafcommerce.core.web.processor.GoogleUniversalAnalyticsProcessor" />
-    <element-processor name="head" class="org.broadleafcommerce.core.web.processor.HeadProcessor" />
-    <element-processor name="named_order" class="org.broadleafcommerce.core.web.processor.NamedOrderProcessor" />
-    <element-processor name="one_page_checkout" class="org.broadleafcommerce.core.web.processor.OnePageCheckoutProcessor" />
-    <element-processor name="product_option_display" class="org.broadleafcommerce.core.web.processor.ProductOptionDisplayProcessor" />
-    <element-processor name="product_options" class="org.broadleafcommerce.core.web.processor.ProductOptionsProcessor" />
-    <element-processor name="ratings" class="org.broadleafcommerce.core.web.processor.RatingsProcessor" />
-    <element-processor name="related_products" class="org.broadleafcommerce.core.web.processor.RelatedProductProcessor" />
-    <element-processor name="uncacheabledata" class="org.broadleafcommerce.core.web.processor.UncacheableDataProcessor" />
+    <element-processor name="categories" class="com.ultracommerce.core.web.processor.CategoriesProcessor" />
+    <element-processor name="form" class="com.ultracommerce.presentation.thymeleaf3.processor.FormProcessor" />
+    <element-processor name="googleanalytics" class="com.ultracommerce.core.web.processor.GoogleAnalyticsProcessor" />
+    <element-processor name="google_universal_analytics" class="com.ultracommerce.core.web.processor.GoogleUniversalAnalyticsProcessor" />
+    <element-processor name="head" class="com.ultracommerce.core.web.processor.HeadProcessor" />
+    <element-processor name="named_order" class="com.ultracommerce.core.web.processor.NamedOrderProcessor" />
+    <element-processor name="one_page_checkout" class="com.ultracommerce.core.web.processor.OnePageCheckoutProcessor" />
+    <element-processor name="product_option_display" class="com.ultracommerce.core.web.processor.ProductOptionDisplayProcessor" />
+    <element-processor name="product_options" class="com.ultracommerce.core.web.processor.ProductOptionsProcessor" />
+    <element-processor name="ratings" class="com.ultracommerce.core.web.processor.RatingsProcessor" />
+    <element-processor name="related_products" class="com.ultracommerce.core.web.processor.RelatedProductProcessor" />
+    <element-processor name="uncacheabledata" class="com.ultracommerce.core.web.processor.UncacheableDataProcessor" />
     
     <!-- Attribute processors -->
-    <attribute-processor name="addsortlink" class="org.broadleafcommerce.core.web.processor.AddSortLinkProcessor" />
-    <attribute-processor name="cache" class="org.broadleafcommerce.core.web.processor.BroadleafCacheProcessor" />
-    <attribute-processor name="addsortlink" class="org.broadleafcommerce.core.web.processor.AddSortLinkProcessor" />
-    <attribute-processor name="paginationpagelink" class="org.broadleafcommerce.core.web.processor.PaginationPageLinkProcessor" />
-    <attribute-processor name="pagination-size-link" class="org.broadleafcommerce.core.web.processor.PaginationSizeLinkProcessor" />
-    <attribute-processor name="pagination-sort-link" class="org.broadleafcommerce.core.web.processor.PaginationSortLinkProcessor" />
-    <attribute-processor name="price" class="org.broadleafcommerce.core.web.processor.PriceTextDisplayProcessor" />
-    <attribute-processor name="togglefacetlink" class="org.broadleafcommerce.core.web.processor.ToggleFacetLinkProcessor" />
-    <attribute-processor name="removefacetvalueslink" class="org.broadleafcommerce.core.web.processor.RemoveFacetValuesLinkProcessor" />
+    <attribute-processor name="addsortlink" class="com.ultracommerce.core.web.processor.AddSortLinkProcessor" />
+    <attribute-processor name="cache" class="com.ultracommerce.core.web.processor.UltraCacheProcessor" />
+    <attribute-processor name="addsortlink" class="com.ultracommerce.core.web.processor.AddSortLinkProcessor" />
+    <attribute-processor name="paginationpagelink" class="com.ultracommerce.core.web.processor.PaginationPageLinkProcessor" />
+    <attribute-processor name="pagination-size-link" class="com.ultracommerce.core.web.processor.PaginationSizeLinkProcessor" />
+    <attribute-processor name="pagination-sort-link" class="com.ultracommerce.core.web.processor.PaginationSortLinkProcessor" />
+    <attribute-processor name="price" class="com.ultracommerce.core.web.processor.PriceTextDisplayProcessor" />
+    <attribute-processor name="togglefacetlink" class="com.ultracommerce.core.web.processor.ToggleFacetLinkProcessor" />
+    <attribute-processor name="removefacetvalueslink" class="com.ultracommerce.core.web.processor.RemoveFacetValuesLinkProcessor" />
     
 </dialect>

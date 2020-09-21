@@ -1,33 +1,33 @@
 /*
  * #%L
- * broadleaf-thymeleaf3-presentation
+ * ultra-thymeleaf3-presentation
  * %%
- * Copyright (C) 2009 - 2016 Broadleaf Commerce
+ * Copyright (C) 2009 - 2016 Ultra Commerce
  * %%
- * Licensed under the Broadleaf Fair Use License Agreement, Version 1.0
- * (the "Fair Use License" located  at http://license.broadleafcommerce.org/fair_use_license-1.0.txt)
- * unless the restrictions on use therein are violated and require payment to Broadleaf in which case
- * the Broadleaf End User License Agreement (EULA), Version 1.1
- * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
+ * Licensed under the Ultra Fair Use License Agreement, Version 1.0
+ * (the "Fair Use License" located  at http://license.ultracommerce.org/fair_use_license-1.0.txt)
+ * unless the restrictions on use therein are violated and require payment to Ultra in which case
+ * the Ultra End User License Agreement (EULA), Version 1.1
+ * (the "Commercial License" located at http://license.ultracommerce.org/commercial_license-1.1.txt)
  * shall apply.
  * 
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
- * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
+ * between you and Ultra Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.presentation.thymeleaf3.site.config;
+package com.ultracommerce.presentation.thymeleaf3.site.config;
 
-import org.broadleafcommerce.common.logging.LifeCycleEvent;
-import org.broadleafcommerce.common.logging.ModuleLifecycleLoggingBean;
-import org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3MessageResolver;
-import org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3TemplateEngine;
-import org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleafViewResolver;
-import org.broadleafcommerce.presentation.thymeleaf3.cache.BroadleafThymeleaf3CacheInvalidationContext;
-import org.broadleafcommerce.presentation.thymeleaf3.cache.BroadleafThymeleaf3CacheManager;
-import org.broadleafcommerce.presentation.thymeleaf3.config.AbstractThymeleaf3DialectConfig;
-import org.broadleafcommerce.presentation.thymeleaf3.config.AbstractThymeleaf3EngineConfig;
-import org.broadleafcommerce.presentation.thymeleaf3.config.Thymeleaf3CommonConfig;
-import org.broadleafcommerce.presentation.thymeleaf3.config.Thymeleaf3ModuleRegistration;
+import com.ultracommerce.common.logging.LifeCycleEvent;
+import com.ultracommerce.common.logging.ModuleLifecycleLoggingBean;
+import com.ultracommerce.presentation.thymeleaf3.UltraThymeleaf3MessageResolver;
+import com.ultracommerce.presentation.thymeleaf3.UltraThymeleaf3TemplateEngine;
+import com.ultracommerce.presentation.thymeleaf3.UltraThymeleafViewResolver;
+import com.ultracommerce.presentation.thymeleaf3.cache.UltraThymeleaf3CacheInvalidationContext;
+import com.ultracommerce.presentation.thymeleaf3.cache.UltraThymeleaf3CacheManager;
+import com.ultracommerce.presentation.thymeleaf3.config.AbstractThymeleaf3DialectConfig;
+import com.ultracommerce.presentation.thymeleaf3.config.AbstractThymeleaf3EngineConfig;
+import com.ultracommerce.presentation.thymeleaf3.config.Thymeleaf3CommonConfig;
+import com.ultracommerce.presentation.thymeleaf3.config.Thymeleaf3ModuleRegistration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,7 +47,7 @@ import java.util.Set;
 public class Thymeleaf3SiteConfig extends Thymeleaf3CommonConfig {
     
     @Bean
-    public ModuleLifecycleLoggingBean blThymeleaf3Lifecycle() {
+    public ModuleLifecycleLoggingBean ucThymeleaf3Lifecycle() {
         return new ModuleLifecycleLoggingBean(Thymeleaf3ModuleRegistration.MODULE_NAME, LifeCycleEvent.LOADING);
     }
     
@@ -55,10 +55,10 @@ public class Thymeleaf3SiteConfig extends Thymeleaf3CommonConfig {
     static class Thymeleaf3SiteDialectConfig extends AbstractThymeleaf3DialectConfig {
         
         @Bean
-        public Set<IDialect> blWebDialects() {
+        public Set<IDialect> ucWebDialects() {
             Set<IDialect> dialects = new LinkedHashSet<>();
             dialects.add(thymeleafSpringStandardDialect());
-            dialects.add(blDialect());
+            dialects.add(ucDialect());
             return dialects;
         }
     }
@@ -78,12 +78,12 @@ public class Thymeleaf3SiteConfig extends Thymeleaf3CommonConfig {
         
         @Bean
         @Primary
-        public BroadleafThymeleaf3TemplateEngine blWebTemplateEngine() {
-            BroadleafThymeleaf3TemplateEngine engine = new BroadleafThymeleaf3TemplateEngine();
+        public UltraThymeleaf3TemplateEngine ucWebTemplateEngine() {
+            UltraThymeleaf3TemplateEngine engine = new UltraThymeleaf3TemplateEngine();
             engine.setMessageResolvers(messageResolvers);
             Set<ITemplateResolver> allResolvers = new LinkedHashSet<>();
             allResolvers.addAll(iTemplateResolvers);
-            allResolvers.addAll(blWebTemplateResolvers());
+            allResolvers.addAll(ucWebTemplateResolvers());
             engine.setTemplateResolvers(allResolvers);
             engine.setCacheManager(cacheManager);
             engine.setDialects(dialects);
@@ -106,9 +106,9 @@ public class Thymeleaf3SiteConfig extends Thymeleaf3CommonConfig {
             this.environment = environment;
         }
         
-        @Bean(name = {"blThymeleafViewResolver", "thymeleafViewResolver"})
-        public BroadleafThymeleafViewResolver blThymeleafViewResolver() {
-            BroadleafThymeleafViewResolver view = new BroadleafThymeleafViewResolver();
+        @Bean(name = {"ucThymeleafViewResolver", "thymeleafViewResolver"})
+        public UltraThymeleafViewResolver ucThymeleafViewResolver() {
+            UltraThymeleafViewResolver view = new UltraThymeleafViewResolver();
             view.setTemplateEngine(templateEngine);
             view.setOrder(1);
             view.setCache(environment.getProperty("thymeleaf.view.resolver.cache", Boolean.class, true));
@@ -127,8 +127,8 @@ public class Thymeleaf3SiteConfig extends Thymeleaf3CommonConfig {
         }
         
         @Bean
-        public BroadleafThymeleaf3CacheInvalidationContext blTemplateCacheInvalidationContext() {
-            BroadleafThymeleaf3CacheInvalidationContext context = new BroadleafThymeleaf3CacheInvalidationContext();
+        public UltraThymeleaf3CacheInvalidationContext ucTemplateCacheInvalidationContext() {
+            UltraThymeleaf3CacheInvalidationContext context = new UltraThymeleaf3CacheInvalidationContext();
             context.setTemplateEngine(templateEngine);
             return context;
         }
@@ -136,16 +136,16 @@ public class Thymeleaf3SiteConfig extends Thymeleaf3CommonConfig {
     }
     
     @Bean
-    public IMessageResolver blMessageResolver() {
-        BroadleafThymeleaf3MessageResolver resolver = new BroadleafThymeleaf3MessageResolver();
+    public IMessageResolver ucMessageResolver() {
+        UltraThymeleaf3MessageResolver resolver = new UltraThymeleaf3MessageResolver();
         resolver.setOrder(100);
         return resolver;
     }
     
     @Bean
     @ConditionalOnMissingBean(ICacheManager.class)
-    public BroadleafThymeleaf3CacheManager blICacheManager() {
-        return new BroadleafThymeleaf3CacheManager();
+    public UltraThymeleaf3CacheManager ucICacheManager() {
+        return new UltraThymeleaf3CacheManager();
     }
     
 }

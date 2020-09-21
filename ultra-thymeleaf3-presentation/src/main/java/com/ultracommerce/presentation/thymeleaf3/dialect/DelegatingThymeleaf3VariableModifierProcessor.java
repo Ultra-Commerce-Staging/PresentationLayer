@@ -1,29 +1,29 @@
 /*
  * #%L
- * BroadleafCommerce Common Libraries
+ * UltraCommerce Common Libraries
  * %%
- * Copyright (C) 2009 - 2016 Broadleaf Commerce
+ * Copyright (C) 2009 - 2016 Ultra Commerce
  * %%
- * Licensed under the Broadleaf Fair Use License Agreement, Version 1.0
- * (the "Fair Use License" located  at http://license.broadleafcommerce.org/fair_use_license-1.0.txt)
- * unless the restrictions on use therein are violated and require payment to Broadleaf in which case
- * the Broadleaf End User License Agreement (EULA), Version 1.1
- * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
+ * Licensed under the Ultra Fair Use License Agreement, Version 1.0
+ * (the "Fair Use License" located  at http://license.ultracommerce.org/fair_use_license-1.0.txt)
+ * unless the restrictions on use therein are violated and require payment to Ultra in which case
+ * the Ultra End User License Agreement (EULA), Version 1.1
+ * (the "Commercial License" located at http://license.ultracommerce.org/commercial_license-1.1.txt)
  * shall apply.
  * 
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
- * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
+ * between you and Ultra Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.presentation.thymeleaf3.dialect;
+package com.ultracommerce.presentation.thymeleaf3.dialect;
 
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.broadleafcommerce.common.web.BroadleafRequestContext;
-import org.broadleafcommerce.presentation.dialect.BroadleafVariableModifierProcessor;
-import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
-import org.broadleafcommerce.presentation.thymeleaf3.model.BroadleafThymeleaf3Context;
+import com.ultracommerce.common.web.UltraRequestContext;
+import com.ultracommerce.presentation.dialect.UltraVariableModifierProcessor;
+import com.ultracommerce.presentation.model.UltraTemplateContext;
+import com.ultracommerce.presentation.thymeleaf3.model.UltraThymeleaf3Context;
 import org.springframework.web.context.request.WebRequest;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.model.IProcessableElementTag;
@@ -42,9 +42,9 @@ import java.util.Set;
 public class DelegatingThymeleaf3VariableModifierProcessor extends AbstractElementTagProcessor {
     
     private static final Log LOG = LogFactory.getLog(DelegatingThymeleaf3VariableModifierProcessor.class);
-    protected BroadleafVariableModifierProcessor processor;
+    protected UltraVariableModifierProcessor processor;
     
-    public DelegatingThymeleaf3VariableModifierProcessor(String elementName, BroadleafVariableModifierProcessor processor, int precedence) {
+    public DelegatingThymeleaf3VariableModifierProcessor(String elementName, UltraVariableModifierProcessor processor, int precedence) {
         super(TemplateMode.HTML, processor.getPrefix(), elementName, true, null, false, precedence);
         this.processor = processor;
     }
@@ -55,8 +55,8 @@ public class DelegatingThymeleaf3VariableModifierProcessor extends AbstractEleme
     @Override
     protected void doProcess(ITemplateContext context, IProcessableElementTag tag, IElementTagStructureHandler structureHandler) {
         Map<String, String> attributes = tag.getAttributeMap();
-        BroadleafTemplateContext blcContext = new BroadleafThymeleaf3Context(context, structureHandler);
-        Map<String, Object> newModelVariables = processor.populateModelVariables(tag.getElementCompleteName(), attributes, blcContext);
+        UltraTemplateContext ucContext = new UltraThymeleaf3Context(context, structureHandler);
+        Map<String, Object> newModelVariables = processor.populateModelVariables(tag.getElementCompleteName(), attributes, ucContext);
         
         if (MapUtils.isNotEmpty(newModelVariables)) {
             for (Map.Entry<String, Object> entry : newModelVariables.entrySet()) {
@@ -119,7 +119,7 @@ public class DelegatingThymeleaf3VariableModifierProcessor extends AbstractEleme
      */
     @Deprecated
     private void addToGlobalModel(String key, Object value) {
-        WebRequest request = BroadleafRequestContext.getBroadleafRequestContext()
+        WebRequest request = UltraRequestContext.getUltraRequestContext()
             .getWebRequest();
         if (request != null) {
             request.setAttribute(key, value, WebRequest.SCOPE_REQUEST);
@@ -141,7 +141,7 @@ public class DelegatingThymeleaf3VariableModifierProcessor extends AbstractEleme
     @Deprecated
     @SuppressWarnings("unchecked")
     protected <T> void addItemToExistingSet(String key, Object value) {
-        WebRequest request = BroadleafRequestContext.getBroadleafRequestContext().getWebRequest();
+        WebRequest request = UltraRequestContext.getUltraRequestContext().getWebRequest();
         Set<T> items = (Set<T>) request.getAttribute(key, WebRequest.SCOPE_REQUEST);
         if (items == null) {
             items = new HashSet<>();

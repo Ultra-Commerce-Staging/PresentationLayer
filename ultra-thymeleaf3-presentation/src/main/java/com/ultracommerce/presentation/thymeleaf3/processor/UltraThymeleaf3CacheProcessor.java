@@ -1,32 +1,32 @@
 /*
  * #%L
- * broadleaf-thymeleaf3-presentation
+ * ultra-thymeleaf3-presentation
  * %%
- * Copyright (C) 2009 - 2016 Broadleaf Commerce
+ * Copyright (C) 2009 - 2016 Ultra Commerce
  * %%
- * Licensed under the Broadleaf Fair Use License Agreement, Version 1.0
- * (the "Fair Use License" located  at http://license.broadleafcommerce.org/fair_use_license-1.0.txt)
- * unless the restrictions on use therein are violated and require payment to Broadleaf in which case
- * the Broadleaf End User License Agreement (EULA), Version 1.1
- * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
+ * Licensed under the Ultra Fair Use License Agreement, Version 1.0
+ * (the "Fair Use License" located  at http://license.ultracommerce.org/fair_use_license-1.0.txt)
+ * unless the restrictions on use therein are violated and require payment to Ultra in which case
+ * the Ultra End User License Agreement (EULA), Version 1.1
+ * (the "Commercial License" located at http://license.ultracommerce.org/commercial_license-1.1.txt)
  * shall apply.
  * 
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
- * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
+ * between you and Ultra Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.presentation.thymeleaf3.processor;
+package com.ultracommerce.presentation.thymeleaf3.processor;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.broadleafcommerce.common.config.service.SystemPropertiesService;
-import org.broadleafcommerce.common.extensibility.cache.JCacheUtil;
-import org.broadleafcommerce.common.web.BroadleafRequestContext;
-import org.broadleafcommerce.presentation.cache.service.TemplateCacheKeyResolverService;
-import org.broadleafcommerce.presentation.dialect.BroadleafDialectPrefix;
-import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
-import org.broadleafcommerce.presentation.thymeleaf3.model.BroadleafThymeleaf3Context;
+import com.ultracommerce.common.config.service.SystemPropertiesService;
+import com.ultracommerce.common.extensibility.cache.JCacheUtil;
+import com.ultracommerce.common.web.UltraRequestContext;
+import com.ultracommerce.presentation.cache.service.TemplateCacheKeyResolverService;
+import com.ultracommerce.presentation.dialect.UltraDialectPrefix;
+import com.ultracommerce.presentation.model.UltraTemplateContext;
+import com.ultracommerce.presentation.thymeleaf3.model.UltraThymeleaf3Context;
 import org.springframework.web.context.request.WebRequest;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.engine.AttributeName;
@@ -46,25 +46,25 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.cache.Cache;
 
-public class BroadleafThymeleaf3CacheProcessor extends AbstractAttributeModelProcessor {
+public class UltraThymeleaf3CacheProcessor extends AbstractAttributeModelProcessor {
 
     public static final String ATTR_NAME = "cache";
     
-    private static final Log LOG = LogFactory.getLog(BroadleafThymeleaf3CacheProcessor.class);
+    private static final Log LOG = LogFactory.getLog(UltraThymeleaf3CacheProcessor.class);
 
     protected Cache cache;
 
-    @Resource(name = "blSystemPropertiesService")
+    @Resource(name = "ucSystemPropertiesService")
     protected SystemPropertiesService systemPropertiesService;
 
-    @Resource(name = "blTemplateCacheKeyResolver")
+    @Resource(name = "ucTemplateCacheKeyResolver")
     protected TemplateCacheKeyResolverService cacheKeyResolver;
     
-    @Resource(name = "blJCacheUtil")
+    @Resource(name = "ucJCacheUtil")
     protected JCacheUtil jcacheUtil;
 
-    public BroadleafThymeleaf3CacheProcessor() {
-        super(TemplateMode.HTML, BroadleafDialectPrefix.BLC.toString(), null, false, ATTR_NAME, true, Integer.MIN_VALUE, false);
+    public UltraThymeleaf3CacheProcessor() {
+        super(TemplateMode.HTML, UltraDialectPrefix.UC.toString(), null, false, ATTR_NAME, true, Integer.MIN_VALUE, false);
     }
     
     @Override
@@ -74,7 +74,7 @@ public class BroadleafThymeleaf3CacheProcessor extends AbstractAttributeModelPro
         Map<String, String> tagAttributes = rootTag.getAttributeMap();
         String documentName = iContext.getTemplateData().getTemplate();
         Integer lineNumber = rootTag.getLine();
-        BroadleafTemplateContext context = new BroadleafThymeleaf3Context(iContext, structureHandler);
+        UltraTemplateContext context = new UltraThymeleaf3Context(iContext, structureHandler);
         if (shouldCache(attributeValue, context)) {
             String cacheKey = cacheKeyResolver.resolveCacheKey(tagName, tagAttributes, documentName, lineNumber, context);
             Object cacheElement = checkCacheForElement(tagAttributes, cacheKey);
@@ -87,7 +87,7 @@ public class BroadleafThymeleaf3CacheProcessor extends AbstractAttributeModelPro
         }
     }
 
-    protected boolean shouldCache(String attributeValue, BroadleafTemplateContext context) {
+    protected boolean shouldCache(String attributeValue, UltraTemplateContext context) {
         if (isCachingEnabled()) {
             String cacheAttrValue = attributeValue;
             if (StringUtils.isEmpty(attributeValue)) {
@@ -190,7 +190,7 @@ public class BroadleafThymeleaf3CacheProcessor extends AbstractAttributeModelPro
         if (cache == null) {
             synchronized (this) {
                 if (cache == null) {
-                    cache = jcacheUtil.getCache("blTemplateElements");
+                    cache = jcacheUtil.getCache("ucTemplateElements");
                 }
             }
         }
@@ -207,7 +207,7 @@ public class BroadleafThymeleaf3CacheProcessor extends AbstractAttributeModelPro
             // check for a URL param that overrides caching - useful for testing if this processor is incorrectly
             // caching a page (possibly due to an bad cacheKey).
 
-            BroadleafRequestContext brc = BroadleafRequestContext.getBroadleafRequestContext();
+            UltraRequestContext brc = UltraRequestContext.getUltraRequestContext();
             if (brc != null && brc.getWebRequest() != null) {
                 WebRequest request = brc.getWebRequest();
                 String disableCachingParam = request.getParameter("disableThymeleafTemplateCaching");

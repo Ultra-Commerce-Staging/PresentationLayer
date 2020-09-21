@@ -1,28 +1,28 @@
 /*
  * #%L
- * broadleaf-common-thymeleaf
+ * ultra-common-thymeleaf
  * %%
- * Copyright (C) 2009 - 2016 Broadleaf Commerce
+ * Copyright (C) 2009 - 2016 Ultra Commerce
  * %%
- * Licensed under the Broadleaf Fair Use License Agreement, Version 1.0
- * (the "Fair Use License" located  at http://license.broadleafcommerce.org/fair_use_license-1.0.txt)
- * unless the restrictions on use therein are violated and require payment to Broadleaf in which case
- * the Broadleaf End User License Agreement (EULA), Version 1.1
- * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
+ * Licensed under the Ultra Fair Use License Agreement, Version 1.0
+ * (the "Fair Use License" located  at http://license.ultracommerce.org/fair_use_license-1.0.txt)
+ * unless the restrictions on use therein are violated and require payment to Ultra in which case
+ * the Ultra End User License Agreement (EULA), Version 1.1
+ * (the "Commercial License" located at http://license.ultracommerce.org/commercial_license-1.1.txt)
  * shall apply.
  * 
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
- * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
+ * between you and Ultra Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.presentation.thymeleaf3.model;
+package com.ultracommerce.presentation.thymeleaf3.model;
 
-import org.broadleafcommerce.presentation.model.BroadleafAssignation;
-import org.broadleafcommerce.presentation.model.BroadleafBindStatus;
-import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
-import org.broadleafcommerce.presentation.model.BroadleafTemplateElement;
-import org.broadleafcommerce.presentation.model.BroadleafTemplateModel;
-import org.broadleafcommerce.presentation.model.BroadleafTemplateNonVoidElement;
+import com.ultracommerce.presentation.model.UltraAssignation;
+import com.ultracommerce.presentation.model.UltraBindStatus;
+import com.ultracommerce.presentation.model.UltraTemplateContext;
+import com.ultracommerce.presentation.model.UltraTemplateElement;
+import com.ultracommerce.presentation.model.UltraTemplateModel;
+import com.ultracommerce.presentation.model.UltraTemplateNonVoidElement;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.context.WebEngineContext;
 import org.thymeleaf.model.AttributeValueQuotes;
@@ -50,19 +50,19 @@ import javax.servlet.http.HttpServletRequest;
  * @author Jay Aisenbrey (cja769)
  *
  */
-public class BroadleafThymeleaf3Context implements BroadleafTemplateContext {
+public class UltraThymeleaf3Context implements UltraTemplateContext {
 
     protected ITemplateContext context;
     protected IElementModelStructureHandler modelHandler;
     protected IElementTagStructureHandler tagHandler;
 
-    public BroadleafThymeleaf3Context(ITemplateContext context, IElementModelStructureHandler modelHandler) {
+    public UltraThymeleaf3Context(ITemplateContext context, IElementModelStructureHandler modelHandler) {
         this.context = context;
         this.modelHandler = modelHandler;
         this.tagHandler = null;
     }
     
-    public BroadleafThymeleaf3Context(ITemplateContext context, IElementTagStructureHandler tagHandler) {
+    public UltraThymeleaf3Context(ITemplateContext context, IElementTagStructureHandler tagHandler) {
         this.context = context;
         this.tagHandler = tagHandler;
         this.modelHandler = null;
@@ -76,10 +76,10 @@ public class BroadleafThymeleaf3Context implements BroadleafTemplateContext {
     }
     
     @Override
-    public List<BroadleafAssignation> getAssignationSequence(String value, boolean allowParametersWithoutValue) {
-        List<BroadleafAssignation> assignations = new ArrayList<>();
+    public List<UltraAssignation> getAssignationSequence(String value, boolean allowParametersWithoutValue) {
+        List<UltraAssignation> assignations = new ArrayList<>();
         for (Assignation assignation : AssignationUtils.parseAssignationSequence(context, value, allowParametersWithoutValue)) {
-            assignations.add(new BroadleafThymeleaf3Assignation(assignation));
+            assignations.add(new UltraThymeleaf3Assignation(assignation));
         }
         return assignations;
     }
@@ -89,44 +89,44 @@ public class BroadleafThymeleaf3Context implements BroadleafTemplateContext {
     }
 
     @Override
-    public BroadleafTemplateNonVoidElement createNonVoidElement(String tagName, Map<String, String> attributes, boolean useDoubleQuotes) {
+    public UltraTemplateNonVoidElement createNonVoidElement(String tagName, Map<String, String> attributes, boolean useDoubleQuotes) {
         IOpenElementTag open = context.getModelFactory().createOpenElementTag(tagName, attributes, useDoubleQuotes ? AttributeValueQuotes.DOUBLE : AttributeValueQuotes.SINGLE, false);
         ICloseElementTag close = context.getModelFactory().createCloseElementTag(tagName, false, false);
-        return new BroadleafThymeleaf3NonVoidElement(open, close);
+        return new UltraThymeleaf3NonVoidElement(open, close);
     }
 
     @Override
-    public BroadleafTemplateNonVoidElement createNonVoidElement(String tagName) {
+    public UltraTemplateNonVoidElement createNonVoidElement(String tagName) {
         IOpenElementTag open = context.getModelFactory().createOpenElementTag(tagName);
         ICloseElementTag close = context.getModelFactory().createCloseElementTag(tagName, false, false);
-        return new BroadleafThymeleaf3NonVoidElement(open, close);
+        return new UltraThymeleaf3NonVoidElement(open, close);
     }
 
     @Override
-    public BroadleafTemplateElement createStandaloneElement(String tagName, Map<String, String> attributes, boolean useDoubleQuotes) {
+    public UltraTemplateElement createStandaloneElement(String tagName, Map<String, String> attributes, boolean useDoubleQuotes) {
         IStandaloneElementTag standaloneTag = context.getModelFactory().createStandaloneElementTag(tagName, attributes, useDoubleQuotes ? AttributeValueQuotes.DOUBLE : AttributeValueQuotes.SINGLE, false, true);
-        return new BroadleafThymeleaf3StandaloneElement(standaloneTag);
+        return new UltraThymeleaf3StandaloneElement(standaloneTag);
     }
 
     @Override
-    public BroadleafTemplateElement createStandaloneElement(String tagName) {
+    public UltraTemplateElement createStandaloneElement(String tagName) {
         IStandaloneElementTag standaloneTag = context.getModelFactory().createStandaloneElementTag(tagName);
-        return new BroadleafThymeleaf3StandaloneElement(standaloneTag);
+        return new UltraThymeleaf3StandaloneElement(standaloneTag);
     }
 
     @Override
-    public BroadleafTemplateElement createTextElement(String text) {
+    public UltraTemplateElement createTextElement(String text) {
         IText textNode = context.getModelFactory().createText(text);
-        return new BroadleafThymeleaf3TextElement(textNode);
+        return new UltraThymeleaf3TextElement(textNode);
     }
 
     @Override
-    public BroadleafTemplateModel createModel() {
-        return new BroadleafThymeleaf3Model(context.getModelFactory().createModel());
+    public UltraTemplateModel createModel() {
+        return new UltraThymeleaf3Model(context.getModelFactory().createModel());
     }
 
     @Override
-    public void setNodeLocalVariable(BroadleafTemplateElement element, String key, Object value) {
+    public void setNodeLocalVariable(UltraTemplateElement element, String key, Object value) {
         if (modelHandler != null) {
             modelHandler.setLocalVariable(key, value);
         } else if (tagHandler != null) {
@@ -135,7 +135,7 @@ public class BroadleafThymeleaf3Context implements BroadleafTemplateContext {
     }
 
     @Override
-    public void setNodeLocalVariables(BroadleafTemplateElement element, Map<String, Object> variableMap) {
+    public void setNodeLocalVariables(UltraTemplateElement element, Map<String, Object> variableMap) {
         if (modelHandler != null) {
             for (String key : variableMap.keySet()) {
                 modelHandler.setLocalVariable(key, variableMap.get(key));
@@ -153,8 +153,8 @@ public class BroadleafThymeleaf3Context implements BroadleafTemplateContext {
     }
 
     @Override
-    public BroadleafBindStatus getBindStatus(String attributeValue) {
-        return new BroadleafThymeleaf3BindStatus(FieldUtils.getBindStatus(context, attributeValue));
+    public UltraBindStatus getBindStatus(String attributeValue) {
+        return new UltraThymeleaf3BindStatus(FieldUtils.getBindStatus(context, attributeValue));
     }
 
     @Override

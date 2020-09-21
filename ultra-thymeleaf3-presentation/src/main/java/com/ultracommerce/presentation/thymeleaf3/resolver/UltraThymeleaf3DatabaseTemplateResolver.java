@@ -1,24 +1,24 @@
 /*
  * #%L
- * broadleaf-theme
+ * ultra-theme
  * %%
- * Copyright (C) 2009 - 2016 Broadleaf Commerce
+ * Copyright (C) 2009 - 2016 Ultra Commerce
  * %%
- * Licensed under the Broadleaf Fair Use License Agreement, Version 1.0
- * (the "Fair Use License" located  at http://license.broadleafcommerce.org/fair_use_license-1.0.txt)
- * unless the restrictions on use therein are violated and require payment to Broadleaf in which case
- * the Broadleaf End User License Agreement (EULA), Version 1.1
- * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
+ * Licensed under the Ultra Fair Use License Agreement, Version 1.0
+ * (the "Fair Use License" located  at http://license.ultracommerce.org/fair_use_license-1.0.txt)
+ * unless the restrictions on use therein are violated and require payment to Ultra in which case
+ * the Ultra End User License Agreement (EULA), Version 1.1
+ * (the "Commercial License" located at http://license.ultracommerce.org/commercial_license-1.1.txt)
  * shall apply.
  * 
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
- * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
+ * between you and Ultra Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.presentation.thymeleaf3.resolver;
+package com.ultracommerce.presentation.thymeleaf3.resolver;
 
-import org.broadleafcommerce.common.web.resource.BroadleafContextUtil;
-import org.broadleafcommerce.core.web.resolver.DatabaseResourceResolverExtensionManager;
+import com.ultracommerce.common.web.resource.UltraContextUtil;
+import com.ultracommerce.core.web.resolver.DatabaseResourceResolverExtensionManager;
 import org.thymeleaf.IEngineConfiguration;
 import org.thymeleaf.templateresolver.AbstractConfigurableTemplateResolver;
 import org.thymeleaf.templateresource.ITemplateResource;
@@ -30,19 +30,19 @@ import java.util.Map;
  * 
  * @author Andre Azzolini (apazzolini)
  */
-public class BroadleafThymeleaf3DatabaseTemplateResolver extends AbstractConfigurableTemplateResolver {
+public class UltraThymeleaf3DatabaseTemplateResolver extends AbstractConfigurableTemplateResolver {
     
     protected DatabaseResourceResolverExtensionManager resourceResolverExtensionManager;
 
-    protected BroadleafContextUtil blcContextUtil;
+    protected UltraContextUtil ucContextUtil;
     
-    public BroadleafThymeleaf3DatabaseTemplateResolver() {
+    public UltraThymeleaf3DatabaseTemplateResolver() {
         setCheckExistence(true);
     }
 
     @Override
     protected ITemplateResource computeTemplateResource(IEngineConfiguration configuration, String ownerTemplate, String template, String resourceName, String characterEncoding, Map<String, Object> templateResolutionAttributes) {
-        return new BroadleafThymeleaf3DatabaseResourceResolver(resourceResolverExtensionManager, blcContextUtil, template);
+        return new UltraThymeleaf3DatabaseResourceResolver(resourceResolverExtensionManager, ucContextUtil, template);
     }
 
     public DatabaseResourceResolverExtensionManager getResourceResolverExtensionManager() {
@@ -53,8 +53,8 @@ public class BroadleafThymeleaf3DatabaseTemplateResolver extends AbstractConfigu
         this.resourceResolverExtensionManager = resourceResolverExtensionManager;
     }
 
-    public void setBroadleafContextUtil(BroadleafContextUtil blcContextUtil) {
-        this.blcContextUtil = blcContextUtil;
+    public void setUltraContextUtil(UltraContextUtil ucContextUtil) {
+        this.ucContextUtil = ucContextUtil;
     }
 
 }
